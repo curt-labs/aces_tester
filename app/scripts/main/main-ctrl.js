@@ -30,7 +30,7 @@ angular.module('acesTester')
         }
       };
       $http({
-        url:'http://localhost:8080/vehicle',
+        url:'http://goapi.curtmfg.com/vehicle',
         method: "POST",
         data:$.param({year: $scope.vehicle.base.year}),
         headers: {
@@ -54,7 +54,7 @@ angular.module('acesTester')
         }
       };
       $http({
-        url:'http://localhost:8080/vehicle',
+        url:'http://goapi.curtmfg.com/vehicle',
         method: "POST",
         data:$.param({
           year: $scope.vehicle.base.year,
@@ -81,7 +81,7 @@ angular.module('acesTester')
         }
       };
       $http({
-        url:'http://localhost:8080/vehicle',
+        url:'http://goapi.curtmfg.com/vehicle',
         method: "POST",
         data:$.param({
           year: $scope.vehicle.base.year,
@@ -112,7 +112,7 @@ angular.module('acesTester')
         }
       };
       $http({
-        url:'http://localhost:8080/vehicle',
+        url:'http://goapi.curtmfg.com/vehicle',
         method: "POST",
         data:$.param({
           year: $scope.vehicle.base.year,
@@ -152,7 +152,7 @@ angular.module('acesTester')
       });
 
       $http({
-        url:'http://localhost:8080/vehicle',
+        url:'http://goapi.curtmfg.com/vehicle',
         method: "POST",
         data:$.param(data),
         headers: {
@@ -164,7 +164,7 @@ angular.module('acesTester')
     };
 
     $http({
-      url:'http://localhost:8080/vehicle',
+      url:'http://goapi.curtmfg.com/vehicle',
       method: "POST",
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
