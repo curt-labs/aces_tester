@@ -4,7 +4,7 @@ angular.module('acesTester', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngResource',
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider
       .state('home', {
-        url: "/",
+        url: '/',
         templateUrl: 'partials/main.html',
         controller: 'MainCtrl'
       });
@@ -12,6 +12,6 @@ angular.module('acesTester', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngResource',
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise('/');
   })
 ;

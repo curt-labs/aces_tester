@@ -31,7 +31,7 @@ angular.module('acesTester')
       };
       $http({
         url:'http://goapi.curtmfg.com/vehicle?key=8aee0620-412e-47fc-900a-947820ea1c1d',
-        method: "POST",
+        method: 'POST',
         data:$.param({year: $scope.vehicle.base.year}),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -55,7 +55,7 @@ angular.module('acesTester')
       };
       $http({
         url:'http://goapi.curtmfg.com/vehicle?key=8aee0620-412e-47fc-900a-947820ea1c1d',
-        method: "POST",
+        method: 'POST',
         data:$.param({
           year: $scope.vehicle.base.year,
           make: $('.makes').val()
@@ -82,7 +82,7 @@ angular.module('acesTester')
       };
       $http({
         url:'http://goapi.curtmfg.com/vehicle?key=8aee0620-412e-47fc-900a-947820ea1c1d',
-        method: "POST",
+        method: 'POST',
         data:$.param({
           year: $scope.vehicle.base.year,
           make: $('.makes').val(),
@@ -113,7 +113,7 @@ angular.module('acesTester')
       };
       $http({
         url:'http://goapi.curtmfg.com/vehicle?key=8aee0620-412e-47fc-900a-947820ea1c1d',
-        method: "POST",
+        method: 'POST',
         data:$.param({
           year: $scope.vehicle.base.year,
           make: $('.makes').val(),
@@ -143,7 +143,7 @@ angular.module('acesTester')
         model: $scope.vehicle.base.model,
         submodel: $scope.vehicle.submodel
       };
-      angular.forEach($('.config').get(), function(config, i){
+      angular.forEach($('.config').get(), function(config){
         data[$(config).data('type')] = $(config).val();
         $scope.vehicle.configurations.push({
           type:$(config).data('type'),
@@ -153,7 +153,7 @@ angular.module('acesTester')
 
       $http({
         url:'http://goapi.curtmfg.com/vehicle?key=8aee0620-412e-47fc-900a-947820ea1c1d',
-        method: "POST",
+        method: 'POST',
         data:$.param(data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -165,7 +165,7 @@ angular.module('acesTester')
 
     $http({
       url:'http://goapi.curtmfg.com/vehicle?key=8aee0620-412e-47fc-900a-947820ea1c1d',
-      method: "POST",
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       }
