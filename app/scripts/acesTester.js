@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('acesTester', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngResource', 'ui.router'])
-  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+angular.module('acesTester', [
+'ngAnimate',
+'ngCookies',
+'ngTouch',
+'ngResource',
+'ui.router'
+])
+  .config(function ($stateProvider, $urlRouterProvider, $sceDelegateProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -9,8 +15,7 @@ angular.module('acesTester', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngResource',
         controller: 'MainCtrl'
       });
 
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(goapi\.)?curtmfg.com/]);
 
     $urlRouterProvider.otherwise('/');
   })
