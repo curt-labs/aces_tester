@@ -53,9 +53,8 @@
 		</div>
 	</div>
 
-
 	<div class="row">
-		<div class="col-lg-3 well filters" ng-if="filters.length > 0">
+		<div class="col-lg-3 col-md-3 well filters" ng-if="filters.length > 0">
 			<div class="filter-segment" ng-repeat="filter in filters">
 				<span class="title">{{filter.Key}}</span>
 				<ul>
@@ -66,7 +65,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col-lg-8 col-offset-lg-1">
+		<div class="col-lg-8 col-md-8 col-offset-lg-1">
 			<h3 ng-if="parts.length > 0">Matched Parts</h3>
 
 			<!-- Part Results -->
@@ -89,10 +88,10 @@
 
 					<!-- Part Body -->
 					<div class="row">
-						<div class="col-lg-5 images">
+						<div class="col-lg-5 col-md-5 images">
 							<img src="{{img}}" alt="{{part.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(part, 'Grande')" />
 						</div>
-						<div class="col-lg-7 col-offset-lg-1 body">
+						<div class="col-lg-7 col-md-7 col-offset-lg-1 body">
 							<div class="actions well">
 								<span class="price">{{getPrice(part)}}</span>
 								<a href="#/part/{{part.PartId}}" class="btn btn-default">Add to Cart</a>
