@@ -4,12 +4,6 @@
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">ACES Testing</a>
 		</div>
-
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-			<ul class="nav navbar-nav">
-				<li class="active"><a ng-href="#">Home</a></li>
-			</ul>
-		</div>
 	</nav>
 
 	<div class="row">
@@ -59,7 +53,7 @@
 				<span class="title">{{filter.Key}}</span>
 				<ul>
 					<li ng-repeat="opt in filter.Options">
-						<input type="checkbox" ng-checked="opt.Selected">
+						<input type="checkbox" ng-checked="opt.Selected" ng-click="updateFilter()">
 						{{opt.Value}} ( {{opt.Products.length}} )
 					</li>
 				</ul>

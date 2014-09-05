@@ -1,5 +1,3 @@
-/* global:$ */
-
 'use strict';
 
 angular.module('acesTester')
@@ -12,14 +10,84 @@ angular.module('acesTester')
 		$scope.configurations = [];
 		$scope.filters = [];
 		$scope.parts = [];
-		$scope.vehicle = {
-			base:{
-				year: '- Select Year -',
-				make: '- Select Make -',
-				model: '- Select Model -'
-			}
-		};
+		if(localStorage.getItem('vehicle') === ''){
+			$scope.vehicle = {
+				base:{
+					year: '- Select Year -',
+					make: '- Select Make -',
+					model: '- Select Model -'
+				}
+			};
+			lookupFactory.query($scope.vehicle).then(function(data){
+				if(data.available_years !== undefined && data.available_years !== null){
+					$scope.years = data.available_years;
+				}
+			});
+		}else{
+			$scope.vehicle = JSON.parse(localStorage.getItem('vehicle'));
+			lookupFactory.query({}).then(function(data){
+				if(data.available_years !== undefined && data.available_years !== null){
+					$scope.years = data.available_years;
+					setTimeout(function(){
+						$('.years').val($scope.vehicle.base.year.toString());
+					}, 100);
+				}
+			});
+			lookupFactory.query({
+				base:{
+					year:$scope.vehicle.base.year
+				}
+			}).then(function(data){
+				if(data.available_makes !== undefined && data.available_makes !== null){
+					$scope.makes = data.available_makes;
+					setTimeout(function(){
+						$('.makes').val($scope.vehicle.base.make);
+					}, 100);
+				}
+			});
+			lookupFactory.query({
+				base:{
+					year:$scope.vehicle.base.year,
+					make:$scope.vehicle.base.make
+				}
+			}).then(function(data){
+				if(data.available_models !== undefined && data.available_models !== null){
+					$scope.models = data.available_models;
+					setTimeout(function(){
+						$('.models').val($scope.vehicle.base.model);
+					}, 100);
+				}
+			});
+			lookupFactory.query({
+				base:{
+					year:$scope.vehicle.base.year,
+					make:$scope.vehicle.base.make,
+					model:$scope.vehicle.base.model
+				}
+			}).then(function(data){
+				if(data.available_submodels !== undefined && data.available_submodels !== null){
+					$scope.submodels = data.available_submodels;
+					setTimeout(function(){
+						$('.submodels').val($scope.vehicle.submodel);
+						var configs = $scope.vehicle.configurations;
+						$scope.getConfigurations(function(){
+							if(configs !== undefined){
+								setTimeout(function(){
+									for (var i = configs.length - 1; i >= 0; i--) {
+										var config = configs[i];
+										// $scope.vehicle.configurations.push(config);
+										$('select[data-type="'+config.type+'"]').val(config.value);
+									}
+									localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
+								}, 1000);
+							}
+						});
+					}, 100);
+				}
+			});
+		}
 
+		// Events
 		$scope.getMakes = function(){
 			$scope.makes = [];
 			$scope.models = [];
@@ -32,6 +100,7 @@ angular.module('acesTester')
 					year: parseInt($('.years').val(),0)
 				}
 			};
+			localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
 			lookupFactory.query($scope.vehicle).then(function(data){
 				if(data.available_makes !== undefined && data.available_makes !== null){
 					$scope.makes = data.available_makes;
@@ -50,6 +119,7 @@ angular.module('acesTester')
 					make: $('.makes').val()
 				}
 			};
+			localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
 			lookupFactory.query($scope.vehicle).then(function(data){
 				if(data.available_models !== undefined && data.available_models !== null){
 					$scope.models = data.available_models;
@@ -67,6 +137,7 @@ angular.module('acesTester')
 					model: $('.models').val()
 				}
 			};
+			localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
 			lookupFactory.query($scope.vehicle).then(function(data){
 				$scope.submodels = [];
 				if(data.available_submodels !== undefined && data.available_submodels !== null){
@@ -82,7 +153,7 @@ angular.module('acesTester')
 				}
 			});
 		};
-		$scope.getConfigurations = function(){
+		$scope.getConfigurations = function(callback){
 			$scope.configurations = [];
 			$scope.vehicle = {
 				base:{
@@ -92,6 +163,7 @@ angular.module('acesTester')
 				},
 				submodel: $('.submodels').val()
 			};
+			localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
 			lookupFactory.query($scope.vehicle).then(function(data){
 				if(data.available_configurations !== undefined && data.available_configurations !== null){
 					$scope.configurations = data.available_configurations;
@@ -105,6 +177,9 @@ angular.module('acesTester')
 					$scope.filters = data.filter;
 				}
 			});
+			if(callback){
+				callback();
+			}
 		};
 		$scope.updateConfiguration = function(){
 			$scope.vehicle = {
@@ -129,17 +204,21 @@ angular.module('acesTester')
 					value: $(config).val()
 				});
 			});
+			localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
 
-			$http({
-				url:'http://goapi.curtmfg.com/vehicle?key=9300f7bc-2ca6-11e4-8758-42010af0fd79',
-				method: 'POST',
-				data:$.param(data),
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+			lookupFactory.query($scope.vehicle).then(function(data){
+				$scope.parts = [];
+				if(data.parts !== undefined && data.parts !== null){
+					$scope.parts = data.parts;
 				}
-			}).success(function(data){
-				$scope.parts = data.parts;
+				$scope.filters = [];
+				if(data.filter !== undefined && data.filter !== null){
+					$scope.filters = data.filter;
+				}
 			});
+		};
+		$scope.updateFilter = function(){
+
 		};
 
 
@@ -204,11 +283,5 @@ angular.module('acesTester')
 			}
 			return $sce.trustAsHtml('<iframe width="100%" height="200" src="//www.youtube.com/embed/'+video.YouTubeVideoId+'" frameborder="0" allowfullscreen></iframe>');
 		};
-
-		lookupFactory.query($scope.vehicle).then(function(data){
-			if(data.available_years !== undefined && data.available_years !== null){
-				$scope.years = data.available_years;
-			}
-		});
 
 	}]);
