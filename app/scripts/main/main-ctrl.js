@@ -11,7 +11,7 @@ angular.module('acesTester')
 		$scope.filters = [];
 		$scope.filtered = [];
 		$scope.parts = [];
-		if(localStorage.getItem('vehicle') === ''){
+		if(localStorage.getItem('vehicle') === '' || localStorage.getItem('vehicle') === null){
 			$scope.vehicle = {
 				base:{
 					year: '- Select Year -',
