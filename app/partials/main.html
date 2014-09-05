@@ -7,7 +7,6 @@
 	</nav>
 
 	<div class="row">
-
 		<!-- Lookup -->
 		<div class="col-lg-6 lookup">
 			<h3>Select Vehicle</h3>
@@ -52,8 +51,8 @@
 			<div class="filter-segment" ng-repeat="filter in filters">
 				<span class="title">{{filter.Key}}</span>
 				<ul>
-					<li ng-repeat="opt in filter.Options">
-						<input type="checkbox" ng-checked="opt.Selected" ng-click="updateFilter()">
+					<li ng-repeat="(i, opt) in filter.Options">
+						<input type="checkbox" ng-checked="opt.Selected" ng-click="updateFilter(filter, i, $event)">
 						{{opt.Value}} ( {{opt.Products.length}} )
 					</li>
 				</ul>
@@ -66,7 +65,7 @@
 			<div class="results" ng-if="parts.length > 0">
 
 				<!-- Part Result -->
-				<div class="result" ng-repeat="part in parts">
+				<div class="result" ng-repeat="part in parts" ng-model="part" data-id="{{part.PartId}}">
 
 					<!-- Part Heading -->
 					<div class="heading">

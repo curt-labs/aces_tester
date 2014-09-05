@@ -9,6 +9,7 @@ angular.module('acesTester')
 		$scope.submodels = [];
 		$scope.configurations = [];
 		$scope.filters = [];
+		$scope.filtered = [];
 		$scope.parts = [];
 		if(localStorage.getItem('vehicle') === ''){
 			$scope.vehicle = {
@@ -217,10 +218,23 @@ angular.module('acesTester')
 				}
 			});
 		};
-		$scope.updateFilter = function(){
-
+		$scope.updateFilter = function(filter, idx, evt){
+			var products = filter.Options[idx].Products;
+			var containing = false;
+			if($(evt.currentTarget).is(':checked')){
+				containing = true;
+			}
+			angular.forEach($('.result').get(),function(res, i){
+				var id = parseInt($(res).data('id'),0);
+				if(products.indexOf(id) === -1){
+					if(containing){
+						$(res).hide();
+					}else{
+						$(res).show();
+					}
+				}
+			});
 		};
-
 
 		// View Functions
 		$scope.getPrice = function(part){
