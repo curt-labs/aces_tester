@@ -23,6 +23,7 @@ angular.module('acesTester')
 		$scope.filters = [];
 		$scope.filtered = [];
 		$scope.parts = [];
+		$scope.displayable = [];
 
 		// Events
 		$scope.getMakes = function(){
@@ -154,85 +155,10 @@ angular.module('acesTester')
 				}
 			});
 		};
-		$scope.updateFilter = function(filter, idx, evt){
-
-			var products = [];
-			var checkedFilters = 0;
-			var filters = $('.filter-segment').get();
-			for (var i = 0; i < filters.length; i++) {
-				var f = filters[i];
-				var items = $(f).find('li').get();
-				var filterProducts = [];
-				for (var j = 0; j < items.length; j++) {
-					var item = items[j];
-					if($(item).find('input').is(':checked')){
-						checkedFilters++;
-						var prods = $scope.filters[i].Options[j].Products;
-						console.log(prods);
-						if(filterProducts.length === 0){
-							filterProducts = prods;
-						}else{
-							var availProds = [];
-							for (var l = 0; l < prods.length; l++) {
-								console.log(filterProducts, prods[l]);
-								if(filterProducts.indexOf(prods[i]) !== -1){
-									availProds.push(prods[l]);
-								}
-							}
-							filterProducts = filterProducts.concat(availProds);
-						}
-						filterProducts = filterProducts.concat(prods).unique();
-					}
-				}
-				if(filterProducts.length > 0){
-					// console.log(filterProducts);
-				}
-
-				if(products.length === 0){
-					products = filterProducts;
-				}else if(filterProducts.length > 0){
-
-					for (var j = products.length - 1; j >= 0; j--) {
-						var prod = products[j];
-						if(filterProducts.indexOf(prod) === -1){
-							products = products.splice(j, 1);
-						}
-					}
-				}
-			}
-
-			if(checkedFilters === 0){
-				$('.result').show();
-				return;
-			}
-
-			if(products.length === 0){
-				$('.result').hide();
-				return;
-			}
-
-			var containing = false;
-			if($(evt.currentTarget).is(':checked')){
-				containing = true;
-			}
-			angular.forEach($('.result').get(),function(res){
-				var id = parseInt($(res).data('id'),0);
-				if(products.indexOf(id) !== -1){
-					// if(containing){
-						// $(res).hide();
-					// }else{
-						$(res).show();
-					// }
-				}else{
-					$(res).hide();
-				}
-			});
+		$scope.updateFilter = function(){
 			$scope.triggerDigest();
 		};
-
-		$scope.triggerDigest = function(){
-
-		};
+		$scope.triggerDigest = function(){};
 
 		// View Functions
 		$scope.getPrice = function(part){
@@ -302,61 +228,67 @@ angular.module('acesTester')
 					$scope.years = data.available_years;
 					setTimeout(function(){
 						$('.years').val($scope.vehicle.base.year.toString());
-					}, 100);
-				}
-			});
-			lookupFactory.query({
-				base:{
-					year:$scope.vehicle.base.year
-				}
-			}).then(function(data){
-				if(data.available_makes !== undefined && data.available_makes !== null){
-					$scope.makes = data.available_makes;
-					setTimeout(function(){
-						$('.makes').val($scope.vehicle.base.make);
-					}, 100);
-				}
-			});
-			lookupFactory.query({
-				base:{
-					year:$scope.vehicle.base.year,
-					make:$scope.vehicle.base.make
-				}
-			}).then(function(data){
-				if(data.available_models !== undefined && data.available_models !== null){
-					$scope.models = data.available_models;
-					setTimeout(function(){
-						$('.models').val($scope.vehicle.base.model);
-					}, 100);
-				}
-			});
-			lookupFactory.query({
-				base:{
-					year:$scope.vehicle.base.year,
-					make:$scope.vehicle.base.make,
-					model:$scope.vehicle.base.model
-				}
-			}).then(function(data){
-				if(data.available_submodels !== undefined && data.available_submodels !== null){
-					$scope.submodels = data.available_submodels;
-					setTimeout(function(){
-						$('.submodels').val($scope.vehicle.submodel);
-						var configs = $scope.vehicle.configurations;
-						$scope.getConfigurations(function(){
-							if(configs !== undefined){
+						lookupFactory.query({
+							base:{
+								year:$scope.vehicle.base.year
+							}
+						}).then(function(data){
+							if(data.available_makes !== undefined && data.available_makes !== null){
+								$scope.makes = data.available_makes;
 								setTimeout(function(){
-									for (var i = configs.length - 1; i >= 0; i--) {
-										var config = configs[i];
-										// $scope.vehicle.configurations.push(config);
-										$('select[data-type="'+config.type+'"]').val(config.value);
-									}
-									localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
-								}, 1000);
+									$('.makes').val($scope.vehicle.base.make);
+									lookupFactory.query({
+										base:{
+											year:$scope.vehicle.base.year,
+											make:$scope.vehicle.base.make
+										}
+									}).then(function(data){
+										if(data.available_models !== undefined && data.available_models !== null){
+											$scope.models = data.available_models;
+											setTimeout(function(){
+												$('.models').val($scope.vehicle.base.model);
+												lookupFactory.query({
+													base:{
+														year:$scope.vehicle.base.year,
+														make:$scope.vehicle.base.make,
+														model:$scope.vehicle.base.model
+													}
+												}).then(function(data){
+													if(data.available_submodels !== undefined && data.available_submodels !== null){
+														$scope.submodels = data.available_submodels;
+														setTimeout(function(){
+															$('.submodels').val($scope.vehicle.submodel);
+															var configs = $scope.vehicle.configurations;
+															$scope.getConfigurations(function(){
+																if(configs !== undefined){
+																	setTimeout(function(){
+																		for (var i = configs.length - 1; i >= 0; i--) {
+																			var config = configs[i];
+																			// $scope.vehicle.configurations.push(config);
+																			$('select[data-type="'+config.type+'"]').val(config.value);
+																		}
+																		localStorage.setItem('vehicle',JSON.stringify($scope.vehicle));
+																	}, 1000);
+																}
+															});
+														}, 100);
+													}
+												});
+											}, 100);
+										}
+									});
+								}, 100);
 							}
 						});
 					}, 100);
 				}
 			});
+		};
+		$scope.showImage = function(index, part, evt){
+			var els = $(evt.currentTarget).closest('.images').find('img');
+			var old = $(els[0]).attr('src');
+			$(els[0]).attr('src', $(evt.currentTarget).attr('src'));
+			$(evt.currentTarget).attr('src',old);
 		};
 
 		if(localStorage.getItem('vehicle') === '' || localStorage.getItem('vehicle') === null){

@@ -47,6 +47,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 
 .results{
 	.result{
+		margin-bottom:40px;
 		.heading{
 			border-bottom: 1px solid #aeaeae;
 			min-height:45px;
@@ -85,6 +86,24 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 					font-size:12px;
 					padding:0;
 					margin-bottom: 4px;
+				}
+			}
+			.attr-table{
+				width:100%;
+				box-shadow: -1px 4px 9px #e1e1e1;
+				border: 1px solid #C7C7C7;
+				tbody{
+					tr{
+						&:nth-child(odd){
+							background:#e1e1e1;
+						}
+						&:nth-child(even){
+							background:white;
+						}
+						td{
+							padding:4px;
+						}
+					}
 				}
 			}
 		}

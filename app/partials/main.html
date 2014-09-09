@@ -65,7 +65,7 @@
 			<div class="results" ng-if="parts.length > 0">
 
 				<!-- Part Result -->
-				<div class="result" ng-repeat="part in parts" ng-model="part" data-id="{{part.PartId}}">
+				<div class="result" ng-repeat="part in parts | matchedParts:this" ng-model="part" data-id="{{part.PartId}}">
 
 					<!-- Part Heading -->
 					<div class="heading">
@@ -82,7 +82,7 @@
 					<!-- Part Body -->
 					<div class="row">
 						<div class="col-lg-5 col-md-5 images">
-							<img src="{{img}}" alt="{{part.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(part, 'Grande')" />
+							<img class="partImage" ng-src="{{img}}" ng-click="showImage(i, part, $event)" alt="{{part.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(part, 'Grande')" />
 						</div>
 						<div class="col-lg-7 col-md-7 col-offset-lg-1 body">
 							<div class="actions well">
@@ -98,7 +98,7 @@
 								<p ng-repeat="con in part.Content">{{con.Value}}</p>
 							</div>
 
-							<table>
+							<table class="attr-table">
 								<tbody>
 									<tr ng-repeat="attr in part.Attributes">
 										<td>{{attr.Key}}</td>
