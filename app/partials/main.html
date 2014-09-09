@@ -48,10 +48,10 @@
 
 	<div class="row">
 		<div class="col-lg-3 col-md-3 well filters" ng-if="filters.length > 0">
-			<div class="filter-segment" ng-repeat="filter in filters">
+			<div class="filter-segment" ng-repeat="filter in filters | filterResults:this">
 				<span class="title">{{filter.Key}}</span>
 				<ul>
-					<li ng-repeat="(i, opt) in filter.Options">
+					<li ng-repeat="(i, opt) in filter.Options" data-id="{{i}}">
 						<input type="checkbox" ng-checked="opt.Selected" ng-click="updateFilter(filter, i, $event)">
 						{{opt.Value}} ( {{opt.Products.length}} )
 					</li>
@@ -97,6 +97,15 @@
 							<div class="content">
 								<p ng-repeat="con in part.Content">{{con.Value}}</p>
 							</div>
+
+							<table>
+								<tbody>
+									<tr ng-repeat="attr in part.Attributes">
+										<td>{{attr.Key}}</td>
+										<td>{{attr.Value}}</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
