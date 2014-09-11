@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('acesTester')
-	.controller('MainCtrl', ['lookupFactory', 'searchFactory', '$scope','$http', '$sce', function (lookupFactory, searchFactory, $scope, $http, $sce) {
+	.controller('MainCtrl', ['lookupFactory', 'searchFactory', 'categoryFactory', '$scope','$http', '$sce', function (lookupFactory, searchFactory, categoryFactory, $scope, $http, $sce) {
 
 		Array.prototype.unique = function() {
 			var a = this.concat();
@@ -16,6 +16,7 @@ angular.module('acesTester')
 		};
 
 		$scope.search_results = [];
+		$scope.parent_categories = [];
 		$scope.years = [];
 		$scope.makes = [];
 		$scope.models = [];
@@ -326,6 +327,10 @@ angular.module('acesTester')
 		}else{
 			$scope.loadFromStorage();
 		}
+
+		categoryFactory.parents().then(function(data){
+			$scope.parent_categories = data;
+		});
 
 		$(document).on('touch click', '.main-nav .menu-item',function(){
 			$(this).find('.dropdown').slideToggle();

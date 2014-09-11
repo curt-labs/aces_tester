@@ -5,12 +5,10 @@
 			Products
 			<div class="triangle-down"></div>
 			<ul class="dropdown">
-				<li>Specialty Towing &amp; Cargo Management</li>
-				<li>Cat 2</li>
-				<li>Cat 3</li>
-				<li>Cat 4</li>
-				<li>Cat 5</li>
-				<li>Cat 6</li>
+				<li ng-repeat="cat in parent_categories">
+					<img src="getCategoryImag" alt="">
+					{{cat.Title}}
+				</li>
 			</ul>
 		</li>
 		<li class="menu-item">About</li>
