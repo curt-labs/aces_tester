@@ -21,6 +21,7 @@
   "globals": {
     "angular": false,
     "$": false,
-    "localStorage":false
+    "localStorage":false,
+    "document":false
   }
 }

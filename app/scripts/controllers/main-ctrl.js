@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('acesTester')
-	.controller('MainCtrl', ['lookupFactory', '$scope','$http', '$sce', function (lookupFactory, $scope, $http, $sce) {
+	.controller('MainCtrl', ['lookupFactory', 'searchFactory', '$scope','$http', '$sce', function (lookupFactory, searchFactory, $scope, $http, $sce) {
 
 		Array.prototype.unique = function() {
 			var a = this.concat();
@@ -15,6 +15,7 @@ angular.module('acesTester')
 			return a;
 		};
 
+		$scope.search_results = [];
 		$scope.years = [];
 		$scope.makes = [];
 		$scope.models = [];
@@ -160,6 +161,14 @@ angular.module('acesTester')
 		};
 		$scope.triggerDigest = function(){};
 
+		// Search Events
+		$scope.search = function(evt){
+			var term = $(evt.currentTarget).find('input').val();
+			searchFactory.query(term).then(function(data){
+				$scope.search_results = data.hits.hits;
+			});
+		};
+
 		// View Functions
 		$scope.getPrice = function(part){
 			if(part.Pricing === null && part.Customer === null){
@@ -178,7 +187,7 @@ angular.module('acesTester')
 			return 'Call for Price';
 		};
 		$scope.getUPC = function(part){
-			if(part.Attributes === null){
+			if(part.Attributes === undefined || part.Attributes === null){
 				return '';
 			}
 			for(var i = 0; i < part.Attributes.length; i++){
@@ -189,6 +198,9 @@ angular.module('acesTester')
 		};
 		$scope.getImages = function(part, size){
 			var images = [];
+			if(part.Images === undefined || part.Images === null){
+				return images;
+			}
 			for(var i = 0; i < part.Images.length; i++){
 				if(part.Images[i].Size === size){
 					var path = part.Images[i].Path;
@@ -307,5 +319,9 @@ angular.module('acesTester')
 		}else{
 			$scope.loadFromStorage();
 		}
+
+		$(document).on('touch click', '.main-nav .menu-item',function(){
+			$(this).find('.dropdown').slideToggle();
+		});
 
 	}]);

@@ -13,6 +13,10 @@ angular.module('acesTester', [
         url: '/',
         templateUrl: 'partials/main.html',
         controller: 'MainCtrl'
+      }).state('search',{
+      	url: '/search',
+      	templateUrl: 'partials/search.html',
+      	controller: 'SearchCtrl'
       });
 
     $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(goapi\.)?curtmfg.com/]);

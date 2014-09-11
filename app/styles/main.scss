@@ -1,4 +1,6 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$price-color: rgb(153, 0, 0);
+$mobile-image-pane-width: 90%;
 
 @import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 
@@ -11,9 +13,103 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 
 .thumbnail {
 	height: 200px;
-
 	img.pull-right {
 		width: 50px;
+	}
+}
+
+.main-menu{
+	border: 1px solid #c7c7c7;
+	border-left: none;
+	border-right: none;
+	padding-left:0;
+	margin-bottom:25px;
+
+	& > div{
+		padding:10px;
+	}
+
+	& > ul{
+		margin:0;
+		padding:0;
+		position: relative;
+		& > li{
+			&:first-child{
+				position:absolute;
+				left:0;
+				top:0;
+				color: #ffffff;
+				background: #e64d2c; /* Old browsers */
+				background: -moz-linear-gradient(top,  #e64d2c 0%, #D14A30 100%); /* FF3.6+ */
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e64d2c), color-stop(100%,#D14A30)); /* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(top,  #e64d2c 0%,#D14A30 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top,  #e64d2c 0%,#D14A30 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top,  #e64d2c 0%,#D14A30 100%); /* IE10+ */
+				background: linear-gradient(to bottom,  #e64d2c 0%,#D14A30 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e64d2c', endColorstr='#D14A30',GradientType=0 ); /* IE6-9 */
+				text-shadow: 0 1px 2px #F2F2F2;
+				z-index: 10;
+				&:before,&:after {
+					z-index: -1;
+					position: absolute;
+					top: 98.1%;
+					left: 25%;
+					margin-left: -25%;
+					content: '';
+					width: 0;
+					height: 0;
+					border-top: solid 10px #D14A30;
+					border-left: solid 75px transparent;
+					border-right: solid 75px transparent;
+					z-index:11;
+				}
+			}
+
+			left: 150px;
+			position: relative;
+			display: inline-block;
+			width: 150px;
+			height: 53px;
+			padding: 0;
+			margin: 0;
+			line-height: 53px;
+			font-size: 18px;
+			text-align: center;
+			cursor: pointer;
+
+			& > ul{
+				width:376px;
+				background:white;
+				color:black;
+				z-index:9;
+				padding:0;
+				margin:0;
+				li{
+					text-align: left;
+					padding-left:10px;
+					border-top:1px solid #c7c7c7;
+					&:first-child{
+						padding-top:10px;
+					}
+				}
+			}
+		}
+	}
+
+	ul{
+		list-style: none;
+	}
+
+	.dropdown{
+		display:none;
+		border:1px solid #c7c7c7;
+		border-top:none;
+	}
+	.main-search{
+		border-left: 1px solid #c7c7c7;
+		input[type=search]{
+			height:33px;
+		}
 	}
 }
 
@@ -50,11 +146,15 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 		margin-bottom:40px;
 		.heading{
 			border-bottom: 1px solid #aeaeae;
-			min-height:45px;
+			min-height:55px;
 			padding: 10px 0;
 			clear:both;
 			.title{
-				font-size: 16px;
+				font-weight:bold;
+				font-size: 20px;
+			}
+			.values{
+				line-height:40px;
 			}
 		}
 
@@ -104,6 +204,29 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 							padding:4px;
 						}
 					}
+				}
+			}
+		}
+	}
+}
+
+@media(max-width:767px){
+	.results{
+		.result{
+			.mb-images{
+				width:$mobile-image-pane-width;
+				margin:auto;
+				img:first-child{
+					width:$mobile-image-pane-width;
+				}
+			}
+			.mb-actions{
+				display:block;
+				margin:10px 0;
+				.price{
+					font-size:18px;
+					line-height:36px;
+					color: $price-color;
 				}
 			}
 		}

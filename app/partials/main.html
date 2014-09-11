@@ -1,122 +1,270 @@
-<div class="container">
 
-	<nav class="navbar navbar-static-top navbar-inverse">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">ACES Testing</a>
-		</div>
-	</nav>
+<div class="container-fluid main-menu">
+	<ul class="main-nav col-lg-5 col-md-5">
+		<li class="menu-item">
+			Products
+			<div class="triangle-down"></div>
+			<ul class="dropdown">
+				<li>Specialty Towing &amp; Cargo Management</li>
+				<li>Cat 2</li>
+				<li>Cat 3</li>
+				<li>Cat 4</li>
+				<li>Cat 5</li>
+				<li>Cat 6</li>
+			</ul>
+		</li>
+		<li class="menu-item">About</li>
+		<li class="menu-item">Find a Dealer</li>
+	</ul>
 
-	<div class="row">
-		<!-- Lookup -->
-		<div class="col-lg-6 lookup">
-			<h3>Select Vehicle</h3>
-			<div class="row">
-				<select class="form-control years" ng-model="vehicle.base.year" ng-change="getMakes()">
-					<option value="0">- Select Year -</option>
-					<option value="{{year}}" ng-repeat="year in years" >{{year}}</option>
-				</select>
-			</div>
-			<div class="row">
-				<select class="form-control makes" ng-model="vehicle.base.make" ng-change="getModels()">
-					<option value="0">- Select Make -</option>
-					<option value="{{make}}" ng-repeat="make in makes" >{{make}}</option>
-				</select>
-			</div>
-			<div class="row">
-				<select class="form-control models" ng-model="vehicle.base.model" ng-change="getSubmodels()">
-					<option value="0">- Select Model -</option>
-					<option value="{{model}}" ng-repeat="model in models" >{{model}}</option>
-				</select>
-			</div>
-			<div class="row" ng-if="submodels.length > 0">
-				<select class="form-control submodels" ng-model="submodel" ng-change="getConfigurations()">
-					<option value="0">- Select Submodel -</option>
-					<option value="{{sub}}" ng-repeat="sub in submodels" >{{sub}}</option>
-				</select>
-			</div>
-
-			<div class="configurations">
-				<div class="row" ng-repeat="config in configurations">
-					<select class="form-control config" data-type="{{config.type}}" ng-if="config.options.length > 0" ng-model="configuration" ng-change="updateConfiguration()">
-						<option value="">- Select {{config.type}} -</option>
-						<option value="{{opt}}" ng-repeat="opt in config.options">{{opt}}</option>
-					</select>
+	<div class="main-search col-lg-7 col-md-7">
+		<form role="form" ng-submit="search($event)">
+			<div class="input-group">
+				<input type="search" class="form-control" placeholder="Search">
+				<div class="input-group-btn">
+					<button class="btn btn-default" type="button">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
 				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="row">
+	<!-- Lookup -->
+	<div class="col-lg-6 lookup">
+		<h3>Select Vehicle</h3>
+		<div class="row">
+			<select class="form-control years" ng-model="vehicle.base.year" ng-change="getMakes()">
+				<option value="0">- Select Year -</option>
+				<option value="{{year}}" ng-repeat="year in years" >{{year}}</option>
+			</select>
+		</div>
+		<div class="row">
+			<select class="form-control makes" ng-model="vehicle.base.make" ng-change="getModels()">
+				<option value="0">- Select Make -</option>
+				<option value="{{make}}" ng-repeat="make in makes" >{{make}}</option>
+			</select>
+		</div>
+		<div class="row">
+			<select class="form-control models" ng-model="vehicle.base.model" ng-change="getSubmodels()">
+				<option value="0">- Select Model -</option>
+				<option value="{{model}}" ng-repeat="model in models" >{{model}}</option>
+			</select>
+		</div>
+		<div class="row" ng-if="submodels.length > 0">
+			<select class="form-control submodels" ng-model="submodel" ng-change="getConfigurations()">
+				<option value="0">- Select Submodel -</option>
+				<option value="{{sub}}" ng-repeat="sub in submodels" >{{sub}}</option>
+			</select>
+		</div>
+
+		<div class="configurations">
+			<div class="row" ng-repeat="config in configurations">
+				<select class="form-control config" data-type="{{config.type}}" ng-if="config.options.length > 0" ng-model="configuration" ng-change="updateConfiguration()">
+					<option value="">- Select {{config.type}} -</option>
+					<option value="{{opt}}" ng-repeat="opt in config.options">{{opt}}</option>
+				</select>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<div class="row">
-		<div class="col-lg-3 col-md-3 well filters" ng-if="filters.length > 0">
-			<div class="filter-segment" ng-repeat="filter in filters | filterResults:this">
-				<span class="title">{{filter.Key}}</span>
-				<ul>
-					<li ng-repeat="(i, opt) in filter.Options" data-id="{{i}}">
-						<input type="checkbox" ng-checked="opt.Selected" ng-click="updateFilter(filter, i, $event)">
-						{{opt.Value}} ( {{opt.Products.length}} )
-					</li>
-				</ul>
-			</div>
+<div class="row" ng-if="parts.length > 0">
+
+	<!-- Filter Options -->
+	<div class="accordion-heading hidden-md hidden-lg">
+		<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Filter Options</a>
+	</div>
+	<div class="col-lg-3 col-md-3 well filters" ng-if="filters.length > 0">
+		<div class="filter-segment" ng-repeat="filter in filters | filterResults:this">
+			<span class="title">{{filter.Key}}</span>
+			<ul>
+				<li ng-repeat="(i, opt) in filter.Options" data-id="{{i}}">
+					<input type="checkbox" ng-checked="opt.Selected" ng-click="updateFilter(filter, i, $event)">
+					{{opt.Value}} ( {{opt.Products.length}} )
+				</li>
+			</ul>
 		</div>
-		<div class="col-lg-8 col-md-8 col-offset-lg-1">
-			<h3 ng-if="parts.length > 0">Matched Parts</h3>
+	</div>
 
-			<!-- Part Results -->
-			<div class="results" ng-if="parts.length > 0">
+	<!-- Part Results -->
+	<div class="col-lg-8 col-md-8 col-offset-lg-1">
+		<h3 ng-if="parts.length > 0">Matched Parts</h3>
 
-				<!-- Part Result -->
-				<div class="result" ng-repeat="part in parts | matchedParts:this" ng-model="part" data-id="{{part.PartId}}">
+		<!-- Part Results -->
+		<div class="results" ng-if="parts.length > 0">
 
-					<!-- Part Heading -->
-					<div class="heading">
-						<!-- Part Title -->
-						<p class="title pull-left">{{part.ShortDesc}}</p>
+			<!-- Part Result -->
+			<div class="result" ng-repeat="part in parts | matchedParts:this" ng-model="part" data-id="{{part.PartId}}">
 
-						<!-- Part Heading Values -->
-						<div class="pull-right">
-							<span class="class"><strong>Class</strong>: {{part.PartClass}}</span>
-							<span class="upc"><strong>UPC</strong>: {{getUPC(part)}}</span>
-						</div>
+				<!-- Part Heading -->
+				<div class="heading">
+					<!-- Part Title -->
+					<p class="title pull-left hidden-xs hidden-sm">{{part.ShortDesc}}</p>
+					<p class="title hidden-md hidden-lg">{{part.ShortDesc}}</p>
+
+					<!-- Part Heading Values -->
+					<div class="hidden-xs hidden-sm pull-right values">
+						<span class="class"><strong>Class</strong>: {{part.PartClass}}</span>
+						<span class="upc"><strong>UPC</strong>: {{getUPC(part)}}</span>
+					</div>
+				</div>
+
+				<!-- Part Body -->
+				<div class="row">
+
+					<!-- Part Images -->
+					<div class="col-lg-5 col-md-5 images hidden-sm hidden-xs">
+						<img class="partImage" ng-src="{{img}}" ng-click="showImage(i, part, $event)" alt="{{part.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(part, 'Grande')" />
 					</div>
 
-					<!-- Part Body -->
-					<div class="row">
-						<div class="col-lg-5 col-md-5 images">
-							<img class="partImage" ng-src="{{img}}" ng-click="showImage(i, part, $event)" alt="{{part.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(part, 'Grande')" />
+					<!-- Desktop View -->
+					<div class="col-lg-6 col-md-6 col-offset-lg-1 body hidden-sm hidden-xs">
+						<div class="actions well">
+							<span class="price">{{getPrice(part)}}</span>
+							<a href="#/part/{{part.PartId}}" class="btn btn-default">Add to Cart</a>
+							<a href="getInstall(part)" class="install">
+								<span class="glyphicon glyphicon-wrench"></span>
+								Install Sheet
+							</a>
+							<div class="video" ng-bind-html="getVideo(part)"></div>
 						</div>
-						<div class="col-lg-7 col-md-7 col-offset-lg-1 body">
-							<div class="actions well">
-								<span class="price">{{getPrice(part)}}</span>
-								<a href="#/part/{{part.PartId}}" class="btn btn-default">Add to Cart</a>
-								<a href="getInstall(part)" class="install">
-									<span class="glyphicon glyphicon-wrench"></span>
-									Install Sheet
+						<!-- Part Content -->
+						<div class="content">
+							<p ng-repeat="con in part.Content">{{con.Value}}</p>
+						</div>
+
+						<!-- Part Attributes -->
+						<table class="attr-table">
+							<tbody>
+								<tr ng-repeat="attr in part.Attributes">
+									<td>{{attr.Key}}</td>
+									<td>{{attr.Value}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Mobile View -->
+					<div class="mb-images images hidden-md hidden-lg">
+						<img class="partImage" ng-src="{{img}}" ng-click="showImage(i, part, $event)" alt="{{part.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(part, 'Medio')" />
+						<div class="clearfix"></div>
+					</div>
+					<div class="mb-actions hidden-md hidden-lg well row">
+						<div class="col-sm-5 col-xs-5">
+							<span class="price">{{getPrice(part)}}</span>
+						</div>
+						<div class="col-sm-7 col-xs-7">
+							<div class="btn-group">
+								<a href="#/part/{{part.PartId}}" class="btn btn-default">
+									<span class="glyphicon glyphicon-info-sign"></span>
 								</a>
-								<div class="video" ng-bind-html="getVideo(part)"></div>
+								<a href="getInstall(part)" class="btn btn-default">
+									<span class="glyphicon glyphicon-wrench"></span>
+								</a>
+								<a href="getVideoLink(part)" class="btn btn-default">
+									<span class="glyphicon glyphicon-play-circle"></span>
+								</a>
 							</div>
-							<div class="content">
-								<p ng-repeat="con in part.Content">{{con.Value}}</p>
-							</div>
-
-							<table class="attr-table">
-								<tbody>
-									<tr ng-repeat="attr in part.Attributes">
-										<td>{{attr.Key}}</td>
-										<td>{{attr.Value}}</td>
-									</tr>
-								</tbody>
-							</table>
 						</div>
+						<div class="clearfix"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<hr>
+<div class="row" ng-if="search_results.length > 0">
+	<div class="col-lg-12 col-md-12">
+		<h3>Search Results</h3>
 
-	<div class="footer">
-		<p>With ♥ from <a href="https://twitter.com/ninnemana">@ninnemana</a></p>
+		<!-- Part Results -->
+		<div class="results">
+
+			<!-- Part Result -->
+			<div class="result" ng-repeat="result in search_results">
+				<div ng-switch="result._type">
+					<div ng-switch-when="part">
+						<!-- Part Heading -->
+						<div class="heading">
+							<!-- Part Title -->
+							<p class="title pull-left hidden-xs hidden-sm">{{result._source.ShortDesc}}</p>
+							<p class="title hidden-md hidden-lg">{{result._source.ShortDesc}}</p>
+
+							<!-- Part Heading Values -->
+							<div class="hidden-xs hidden-sm pull-right values">
+								<span class="class"><strong>Class</strong>: {{result._source.PartClass}}</span>
+								<span class="upc"><strong>UPC</strong>: {{getUPC(result._source)}}</span>
+							</div>
+						</div>
+
+						<!-- Part Body -->
+						<div class="row">
+
+							<!-- Part Images -->
+							<div class="col-lg-5 col-md-5 images hidden-sm hidden-xs">
+								<img class="partImage" ng-src="{{img}}" ng-click="showImage(i, result._source, $event)" alt="{{result._source.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(result._source, 'Grande')" />
+							</div>
+
+							<!-- Desktop View -->
+							<div class="col-lg-6 col-md-6 col-offset-lg-1 body hidden-sm hidden-xs">
+								<div class="actions well">
+									<span class="price">{{getPrice(result._source)}}</span>
+									<a href="#/part/{{result._source.PartId}}" class="btn btn-default">Add to Cart</a>
+									<a href="getInstall(result._source)" class="install">
+										<span class="glyphicon glyphicon-wrench"></span>
+										Install Sheet
+									</a>
+									<div class="video" ng-bind-html="getVideo(result._source)"></div>
+								</div>
+								<!-- Part Content -->
+								<div class="content">
+									<p ng-repeat="con in result._source.Content">{{con.Value}}</p>
+								</div>
+
+								<!-- Part Attributes -->
+								<table class="attr-table">
+									<tbody>
+										<tr ng-repeat="attr in result._source.Attributes">
+											<td>{{attr.Key}}</td>
+											<td>{{attr.Value}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<!-- Mobile View -->
+							<div class="mb-images images hidden-md hidden-lg">
+								<img class="partImage" ng-src="{{img}}" ng-click="showImage(i, part, $event)" alt="{{part.ShortDesc}} Image {{i}}" ng-repeat="(i, img) in getImages(part, 'Medio')" />
+								<div class="clearfix"></div>
+							</div>
+							<div class="mb-actions hidden-md hidden-lg well row">
+								<div class="col-sm-5 col-xs-5">
+									<span class="price">{{getPrice(part)}}</span>
+								</div>
+								<div class="col-sm-7 col-xs-7">
+									<div class="btn-group">
+										<a href="#/part/{{part.PartId}}" class="btn btn-default">
+											<span class="glyphicon glyphicon-info-sign"></span>
+										</a>
+										<a href="getInstall(part)" class="btn btn-default">
+											<span class="glyphicon glyphicon-wrench"></span>
+										</a>
+										<a href="getVideoLink(part)" class="btn btn-default">
+											<span class="glyphicon glyphicon-play-circle"></span>
+										</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							</div>
+						</div>
+					</div> <!-- End ng-switch-when=part -->
+				</div> <!-- End ng-switch -->
+			</div> <!-- End .result -->
+		</div>
 	</div>
-
 </div>

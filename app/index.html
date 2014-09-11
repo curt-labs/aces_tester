@@ -25,7 +25,16 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ui-view></div>
+    <div class="container">
+    	<nav class="navbar navbar-static-top navbar-inverse">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">ACES Testing</a>
+				</div>
+			</nav>
+
+			<div ui-view></div>
+    </div>
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -51,9 +60,11 @@
 
     <!-- build:js({app,.tmp}) scripts/main.js -->
     <script src="scripts/acesTester.js"></script>
-    <script src="scripts/main/filters/part.js"></script>
-    <script src="scripts/main/lookup.js"></script>
-    <script src="scripts/main/main-ctrl.js"></script>
+    <script src="scripts/filters/part.js"></script>
+    <script src="scripts/services/lookup.js"></script>
+    <script src="scripts/services/search.js"></script>
+    <script src="scripts/controllers/main-ctrl.js"></script>
+    <script src="scripts/controllers/search-ctrl.js"></script>
     <!-- inject:partials -->
     <!-- endinject -->
     <!-- endbuild -->
