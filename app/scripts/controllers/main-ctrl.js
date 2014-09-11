@@ -83,6 +83,7 @@ angular.module('acesTester')
 					$scope.submodels = data.available_submodels;
 				}
 				$scope.parts = [];
+				$scope.search_results = [];
 				if(data.parts !== undefined && data.parts !== null){
 					$scope.parts = data.parts;
 				}
@@ -108,6 +109,7 @@ angular.module('acesTester')
 					$scope.configurations = data.available_configurations;
 				}
 				$scope.parts = [];
+				$scope.search_results = [];
 				if(data.parts !== undefined && data.parts !== null){
 					$scope.parts = data.parts;
 				}
@@ -147,6 +149,7 @@ angular.module('acesTester')
 
 			lookupFactory.query($scope.vehicle).then(function(data){
 				$scope.parts = [];
+				$scope.search_results = [];
 				if(data.parts !== undefined && data.parts !== null){
 					$scope.parts = data.parts;
 				}
@@ -166,12 +169,16 @@ angular.module('acesTester')
 			var term = $(evt.currentTarget).find('input').val();
 			searchFactory.query(term).then(function(data){
 				$scope.search_results = data.hits.hits;
+				$scope.filters = [];
+				$scope.filtered = [];
+				$scope.parts = [];
+				$scope.displayable = [];
 			});
 		};
 
 		// View Functions
 		$scope.getPrice = function(part){
-			if(part.Pricing === null && part.Customer === null){
+			if(part === undefined || part.Pricing === null && part.Customer === null){
 				return '';
 			}
 			if(part.Customer !== undefined && part.Customer.Price !== undefined && part.Customer.Price > 0){
@@ -187,7 +194,7 @@ angular.module('acesTester')
 			return 'Call for Price';
 		};
 		$scope.getUPC = function(part){
-			if(part.Attributes === undefined || part.Attributes === null){
+			if(part === undefined || part.Attributes === undefined || part.Attributes === null){
 				return '';
 			}
 			for(var i = 0; i < part.Attributes.length; i++){
@@ -198,7 +205,7 @@ angular.module('acesTester')
 		};
 		$scope.getImages = function(part, size){
 			var images = [];
-			if(part.Images === undefined || part.Images === null){
+			if(part === undefined || part.Images === undefined || part.Images === null){
 				return images;
 			}
 			for(var i = 0; i < part.Images.length; i++){
@@ -210,13 +217,13 @@ angular.module('acesTester')
 			return images;
 		};
 		$scope.getInstall = function(part){
-			if(part.InstallSheet === undefined || part.InstallSheet === null){
+			if(part === undefined || part.InstallSheet === undefined || part.InstallSheet === null){
 				return '#';
 			}
 			return part.InstallSheet.Scheme + '://' + part.InstallSheet.Host + part.InstallSheet.Path;
 		};
 		$scope.getVideo = function(part){
-			if(part.Videos === undefined || part.Videos === null || part.Videos.length === 0){
+			if(part === undefined || part.Videos === undefined || part.Videos === null || part.Videos.length === 0){
 				return '';
 			}
 
