@@ -210,6 +210,17 @@ $mobile-image-pane-width: 90%;
 	}
 }
 
+.search-results{
+	.search-result-data{
+		text-align: right;
+		margin-top:20px;
+		margin-bottom:10px;
+		span{
+			line-height: 24px;
+		}
+	}
+}
+
 @media(max-width:767px){
 	.results{
 		.result{
@@ -231,4 +242,15 @@ $mobile-image-pane-width: 90%;
 			}
 		}
 	}
+
+	.search-results{
+	.search-result-data{
+		text-align: left;
+		margin-top:20px;
+		margin-bottom:10px;
+		span{
+			line-height: 24px;
+		}
+	}
+}
 }

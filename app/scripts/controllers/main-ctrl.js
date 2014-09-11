@@ -15,7 +15,7 @@ angular.module('acesTester')
 			return a;
 		};
 
-		$scope.search_results = [];
+		$scope.search_result = {};
 		$scope.parent_categories = [];
 		$scope.years = [];
 		$scope.makes = [];
@@ -84,7 +84,7 @@ angular.module('acesTester')
 					$scope.submodels = data.available_submodels;
 				}
 				$scope.parts = [];
-				$scope.search_results = [];
+				$scope.search_result = {};
 				if(data.parts !== undefined && data.parts !== null){
 					$scope.parts = data.parts;
 				}
@@ -110,7 +110,7 @@ angular.module('acesTester')
 					$scope.configurations = data.available_configurations;
 				}
 				$scope.parts = [];
-				$scope.search_results = [];
+				$scope.search_result = {};
 				if(data.parts !== undefined && data.parts !== null){
 					$scope.parts = data.parts;
 				}
@@ -150,7 +150,7 @@ angular.module('acesTester')
 
 			lookupFactory.query($scope.vehicle).then(function(data){
 				$scope.parts = [];
-				$scope.search_results = [];
+				$scope.search_result = {};
 				if(data.parts !== undefined && data.parts !== null){
 					$scope.parts = data.parts;
 				}
@@ -169,7 +169,8 @@ angular.module('acesTester')
 		$scope.search = function(evt){
 			var term = $(evt.currentTarget).find('input').val();
 			searchFactory.query(term).then(function(data){
-				$scope.search_results = data.hits.hits;
+				$scope.search_result = data;
+				console.log(data);
 				$scope.filters = [];
 				$scope.filtered = [];
 				$scope.parts = [];
